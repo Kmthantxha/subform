@@ -2,10 +2,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Subscribe Page</title>
+  <title>Subscribe</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
+      font-family: Arial;
       background: #f4f4f4;
       display: flex;
       justify-content: center;
@@ -19,30 +19,55 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       width: 300px;
     }
-    input {
+    input, button {
       display: block;
       width: 100%;
       margin: 10px 0;
       padding: 10px;
-      font-size: 16px;
     }
-    button {
-      background: #007BFF;
-      color: white;
-      border: none;
-      padding: 10px;
-      font-size: 16px;
-      cursor: pointer;
-      border-radius: 5px;
+    #message {
+      color: green;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-  <form action="https://script.google.com/macros/s/AKfycbwo5QOp31g7HvlZj6-fsLMMQawCY_-ltnCedUwIqrp1CCUkrT5SwHKrhUwelunO-LGA4Q/exec" method="POST">
+
+  <form id="subscribeForm">
     <h2>Subscribe</h2>
     <input type="email" name="email" placeholder="Enter your email" required>
     <input type="password" name="password" placeholder="Enter a password" required>
     <button type="submit">Subscribe</button>
+    <div id="message"></div>
   </form>
+
+  <script>
+    const form = document.getElementById('subscribeForm');
+    const message = document.getElementById('message');
+
+    form.addEventListener('submit', function(e) {
+      e.preventDefault(); // prevent normal form submission
+
+      const formData = new FormData(form);
+
+      fetch("https://script.google.com/macros/s/AKfycbwo5QOp31g7HvlZj6-fsLMMQawCY_-ltnCedUwIqrp1CCUkrT5SwHKrhUwelunO-LGA4Q/exec", {
+        method: "POST",
+        body: formData
+      })
+      .then(response => response.text())
+      .then(data => {
+        // Optional: show message
+        message.textContent = "Thank you! Redirecting...";
+        setTimeout(() => {
+          window.location.href = "https://workforcestaffing.co.za/";
+        }, 1000); // Wait 1 second then redirect
+      })
+      .catch(error => {
+        message.textContent = "Something went wrong. Try again.";
+        console.error(error);
+      });
+    });
+  </script>
+
 </body>
 </html>
